@@ -26,9 +26,6 @@ def solve(nKnots: int, lines: list) -> int:
 
     for l in lines:
         f = l.strip().split()
-        dir = f[0]
-        n = int(f[1])
-
         for i in range(int(f[1])):
             knots[0] = move(knots[0], hMoves[f[0]])
             for j in range(1, nKnots):
