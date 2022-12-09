@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# Day 9: Rope Bridge Part 1
+# Day 9: Rope Bridge
 # https://adventofcode.com/2022/day/9
 # J.Christensen 09Dec2022
 
@@ -14,9 +14,14 @@ def main() -> None:
     # read the input, strip leading/trailing whitespace including newlines
     lines = sys.stdin.readlines()
 
+    print('AoC 2022 Day 09 Part 1:', solve(2,  lines))
+    print('AoC 2022 Day 09 Part 2:', solve(10, lines))
+
+def solve(nKnots: int, lines: list) -> int:
     hMoves = {'L':[-1,0], 'R':[1,0], 'U':[0,1], 'D':[0,-1]}
-    h = [0, 0]      # x and y coord of head
-    t = [0, 0]      # x and y coord of tail
+    knots = []
+    for i in range(nKnots):
+        knots.append([0, 0])    # x and y coord of ten knots
     visited = {}    # points visited by tail, uses stringified points as keys, e.g. '1,2'
 
     for l in lines:
@@ -25,13 +30,14 @@ def main() -> None:
         n = int(f[1])
 
         for i in range(int(f[1])):
-            h = move(h, hMoves[f[0]])
-            t = move(t, tMove(h, t))
-            tStr = strPoint(t)
+            knots[0] = move(knots[0], hMoves[f[0]])
+            for j in range(1, nKnots):
+                knots[j] = move(knots[j], tMove(knots[j-1], knots[j]))
+            tStr = strPoint(knots[nKnots-1])
             visited.setdefault(tStr, 0)
             visited[tStr] += 1
 
-    print('AoC 2022 Day 09 Part 1:', len(visited.keys()))
+    return len(visited.keys())
 
 def tMove(p1: list, p2: list) -> list:
     dx = p1[0] - p2[0]
