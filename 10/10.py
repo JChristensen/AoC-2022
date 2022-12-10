@@ -36,10 +36,7 @@ def solve(lines: list) -> list:
         if   (state == 'fetch'):        # fetch the next instruction
             if (cpu.hasMoreInst()):
                 op, arg = cpu.fetch()
-                if (op == 'noop'):
-                    state = 'nop'
-                else:
-                    state = 'add1'
+                state = 'nop' if (op == 'noop') else 'add1'
             else:
                 break
 
@@ -52,10 +49,7 @@ def solve(lines: list) -> list:
                 interestingSS += 40
 
             # calculations for part 2
-            if (crtPixel >= x-1 and crtPixel <= x+1):
-                screenLine += '#'
-            else:
-                screenLine += '.'
+            screenLine += '#' if (crtPixel >= x-1 and crtPixel <= x+1) else '.'
             crtPixel += 1
             if (crtPixel >= 40):
                 screen.append(screenLine)
@@ -84,10 +78,7 @@ class Machine:
         inst = self.pgm[self.ic-1]
         f = inst.strip().split()
         op = f[0]
-        if (op == 'addx'):
-            arg = int(f[1])
-        else:
-           arg = ''
+        arg = int(f[1]) if (op == 'addx') else ''
         self.ic += 1
         return [op, arg]
 
