@@ -14,14 +14,15 @@ def main() -> None:
     # read the input, strip leading/trailing whitespace including newlines
     lines = sys.stdin.readlines()
 
-    print('AoC 2022 Day 09 Part 1:', solve(2,  lines))
+    print('AoC 2022 Day 09 Part 1:', solve( 2, lines))
     print('AoC 2022 Day 09 Part 2:', solve(10, lines))
 
 def solve(nKnots: int, lines: list) -> int:
+    """Points and deltas (moves) are represented by lists of length 2, e.g. [x, y]"""
     hMoves = {'L':[-1,0], 'R':[1,0], 'U':[0,1], 'D':[0,-1]}
     knots = []
     for i in range(nKnots):
-        knots.append([0, 0])    # x and y coord of ten knots
+        knots.append([0, 0])    # x and y coords of the knots
     visited = {}    # points visited by tail, uses stringified points as keys, e.g. '1,2'
 
     for l in lines:
@@ -37,6 +38,7 @@ def solve(nKnots: int, lines: list) -> int:
     return len(visited.keys())
 
 def tMove(p1: list, p2: list) -> list:
+    """Calculate the move for a non-head knot"""
     dx = p1[0] - p2[0]
     dy = p1[1] - p2[1]
     if (abs(dx) > 1 or abs(dy) > 1):
@@ -53,6 +55,7 @@ def tMove(p1: list, p2: list) -> list:
         return [0, 0]
 
 def move(point: list, delta: list) -> list:
+    """Move the given point by the given delta, return the result."""
     result=[]
     result.append(point[0] + delta[0])
     result.append(point[1] + delta[1])
