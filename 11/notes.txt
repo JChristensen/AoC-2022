@@ -1,0 +1,21 @@
+{ 'monkeyNbr': [inspections, [items], op, test, true, false], ... }
+
+Monkey 0:
+  Starting items: 79, 98
+  Operation: new = old * 19
+  Test: divisible by 23
+    If true: throw to monkey 2
+    If false: throw to monkey 3
+
+{ '0': [[79, 98], 'old * 19', 23, '2', '3'], ... }
+
+
+['Monkey', '0:']
+['Starting', 'items:', '79,', '98']
+['Operation:', 'new', '=', 'old', '*', '19']
+['Test:', 'divisible', 'by', '23']
+['If', 'true:', 'throw', 'to', 'monkey', '2']
+['If', 'false:', 'throw', 'to', 'monkey', '3']
+['Monkey', '1:']
+
+
