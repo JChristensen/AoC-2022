@@ -11,11 +11,8 @@ import sys
 def main() -> None:
     print(f"\n---- PYTHON {os.path.basename(__file__)} ----")
 
-    # read the input
     lines = sys.stdin.readlines()
-
     solve(lines)
-    #print('AoC 2022 Day 12 Part 1:')
 
 def solve(lines: list) -> None:
     g = Graph()
@@ -49,31 +46,47 @@ def solve(lines: list) -> None:
                     if (g.getValue(e) <= g.getValue(v) + 1):
                         g.addEdge(v, e)
 
-    gr = g.getGraph()
-    visited = [start]
-    queue = [start]
-    parent = {}
-    parent[start] = None
-    while (len(queue) > 0):
-        v = queue.pop(0)
-        if (v == end):
-            break
-        for e in gr[v][1]:
-            if (e not in visited):
-                queue.append(e)
-                visited.append(e)
-                parent[e] = v
+    path = g.search(start, end)
+    print('AoC 2022 Day 12 Part 1:', len(path))
 
-    v = end
-    path = []
-    while(v != start):
-        path.append(v)
-        v = parent[v]
-    print(len(path), path)
+    gr = g.getGraph()
+    pathLengths = []
+    for k, v in gr.items():
+        if (v[0] == 1):
+            path = g.search(k, end)
+            if (len(path) > 0):
+                pathLengths.append(len(path))
+
+    print('AoC 2022 Day 12 Part 2:', min(pathLengths))
 
 class Graph:
     def __init__(self) -> None:
         self.g = {}
+
+    def search(self, start: str, end: str) -> list:
+        visited = [start]
+        queue = [start]
+        parent = {}
+        parent[start] = None
+        while (len(queue) > 0):
+            v = queue.pop(0)
+            if (v == end):
+                break
+            for e in self.g[v][1]:
+                if (e not in visited):
+                    queue.append(e)
+                    visited.append(e)
+                    parent[e] = v
+
+        v = end
+        path = []
+        while(v != start):
+            path.append(v)
+            if (v in parent):   # sometimes you can't get there from here
+                v = parent[v]
+            else:
+                return []
+        return path
 
     def addVertex(self, v: str, val: int) -> None:
         self.g[v] = [val, []]
